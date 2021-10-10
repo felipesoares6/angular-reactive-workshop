@@ -1,7 +1,6 @@
 import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { ProjectsActionTypes } from './projects.actions';
 import { Project } from './../../projects/project.model';
-import { ProjectActionTypes } from './projects.actions';
 
 export const initialProjects: Project[] = [
   {
@@ -49,9 +48,9 @@ export function projectsReducer(
   switch (action.type) {
     case ProjectsActionTypes.ProjectSelected:
       return Object.assign({}, state, { selectedProjectId: action.payload });
-    case ProjectsActionTypes.LoadProjects:
+    case ProjectsActionTypes.ProjectsLoaded:
       return adapter.addMany(action.payload, state);
-    case ProjectsActionTypes.AddProject:
+    case ProjectsActionTypes.ProjectAdded:
       return adapter.addOne(action.payload, state);
     case ProjectsActionTypes.UpdateProject:
       return adapter.updateOne(action.payload, state);
