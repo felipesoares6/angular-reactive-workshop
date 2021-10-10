@@ -11,7 +11,7 @@ export interface AppState {
 // Add in feature reducer into combined reducer
 export const reducers: ActionReducerMap<AppState> = {
   customers: fromCustomers.customersReducer,
-  projects: fromProjects.projectsReducers
+  projects: fromProjects.projectsReducer
 };
 
 // -------------------------------------------------------------------

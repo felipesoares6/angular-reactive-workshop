@@ -46,9 +46,24 @@ export const initialState: ProjectsState = {
 }
 
 // 03 Build the MOST simplest reducer
-export function projectsReducers(
+export function projectsReducer(
   state = initialState, action): ProjectsState {
     switch(action.type) {
+      case 'create':
+        return {
+          ...state,
+          projects: createProject(state.projects, action.payload)
+        }
+      case 'update':
+        return {
+          ...state,
+          projects: updateProject(state.projects, action.payload)
+        }
+      case 'delete':
+        return {
+          ...state,
+          projects: deleteProject(state.projects, action.payload)
+        }
       default:
         return state;
     }

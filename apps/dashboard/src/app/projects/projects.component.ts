@@ -68,31 +68,25 @@ export class ProjectsComponent implements OnInit {
     }
   }
 
-  createProject(project) {
-    this.projectsService.create(project)
-      .subscribe(response => {
-        this.ns.emit('Project created!');
-        this.getProjects();
-        this.resetCurrentProject();
-      });
+  createProject(project: Project) {
+    this.store.dispatch({ type: 'create', payload: project });
+
+    this.ns.emit('Project created!');
+    this.resetCurrentProject();
   }
 
-  updateProject(project) {
-    this.projectsService.update(project)
-      .subscribe(response => {
-        this.ns.emit('Project saved!');
-        this.getProjects();
-        this.resetCurrentProject();
-      });
+  updateProject(project: Project) {
+    this.store.dispatch({ type: 'update', payload: project });
+
+    this.ns.emit('Project saved!');
+    this.resetCurrentProject();
   }
 
-  deleteProject(project) {
-    this.projectsService.delete(project)
-      .subscribe(response => {
-        this.ns.emit('Project deleted!');
-        this.getProjects();
-        this.resetCurrentProject();
-      });
+  deleteProject(project: Project) {
+    this.store.dispatch({ type: 'delete', payload: project.id });
+
+    this.ns.emit('Project deleted!');
+    this.resetCurrentProject();
   }
 }
 
