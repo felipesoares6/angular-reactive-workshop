@@ -1,42 +1,39 @@
-import { Action } from "@ngrx/store";
-import { Project } from "@workshop/core-data";
+import { Action } from '@ngrx/store';
 
-export enum ProjectActionTypes {
-  LoadProjects = '[Projects] Load Data',
+import { Project } from './../../projects/project.model';
+
+export enum ProjectsActionTypes {
   ProjectSelected = '[Projects] Selected',
+  LoadProjects = '[Projects] Load Data',
   AddProject = '[Projects] Add Data',
   UpdateProject = '[Projects] Update Data',
   DeleteProject = '[Projects] Delete Data',
 }
 
+export class SelectProject implements Action {
+  readonly type = ProjectsActionTypes.ProjectSelected;
+  constructor(private payload: Project) {}
+}
 export class LoadProjects implements Action {
-  readonly type = ProjectActionTypes.LoadProjects;
-
+  readonly type = ProjectsActionTypes.LoadProjects;
   constructor(private payload: Project[]) {}
 }
-
-export class SelectProject implements Action {
-  readonly type = ProjectActionTypes.ProjectSelected;
-
-  constructor(private payload: Project) {}
-}
-
 export class AddProject implements Action {
-  readonly type = ProjectActionTypes.AddProject;
-
+  readonly type = ProjectsActionTypes.AddProject;
   constructor(private payload: Project) {}
 }
-
 export class UpdateProject implements Action {
-  readonly type = ProjectActionTypes.UpdateProject;
-
+  readonly type = ProjectsActionTypes.UpdateProject;
   constructor(private payload: Project) {}
 }
-
 export class DeleteProject implements Action {
-  readonly type = ProjectActionTypes.DeleteProject;
-
+  readonly type = ProjectsActionTypes.DeleteProject;
   constructor(private payload: Project) {}
 }
 
-export type ProjectActions = LoadProjects | SelectProject | AddProject | UpdateProject | DeleteProject;
+export type ProjectsActions = SelectProject
+  | LoadProjects
+  | AddProject
+  | UpdateProject
+  | DeleteProject
+  ;

@@ -2,7 +2,9 @@ import { map } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
-import { initialProjects, Customer, Project, ProjectsService, NotificationsService, CustomersService, ProjectsState, LoadProjects, AddProject, UpdateProject, DeleteProject } from '@workshop/core-data';
+import { Customer, Project, ProjectsService, NotificationsService, CustomersService, ProjectsState,
+  LoadProjects, AddProject, UpdateProject, DeleteProject, initialProjects, selectAllProjects } from '@workshop/core-data';
+
 
 const emptyProject: Project = {
   id: null,
@@ -28,11 +30,7 @@ export class ProjectsComponent implements OnInit {
     private customerService: CustomersService,
     private store: Store<ProjectsState>,
     private ns: NotificationsService) {
-      this.projects$ = store.pipe(
-        select('projects'),
-        map(data => data.entities),
-        map(data => Object.keys(data).map(k => data[k]))
-      )
+      this.projects$ = store.pipe(select(selectAllProjects));
     }
 
   ngOnInit() {
@@ -69,23 +67,24 @@ export class ProjectsComponent implements OnInit {
     }
   }
 
-  createProject(project: Project) {
+  createProject(project) {
     this.store.dispatch(new AddProject(project));
-
+    // These will go away
     this.ns.emit('Project created!');
     this.resetCurrentProject();
   }
 
-  updateProject(project: Project) {
+  updateProject(project) {
     this.store.dispatch(new UpdateProject(project));
-
-    this.ns.emit('Project saved!');
+    // These will go away
+    this.ns.emit('Project updated!');
     this.resetCurrentProject();
   }
 
-  deleteProject(project: Project) {
+  deleteProject(project) {
     this.store.dispatch(new DeleteProject(project));
 
+    // These will go away
     this.ns.emit('Project deleted!');
     this.resetCurrentProject();
   }
