@@ -31,25 +31,25 @@ const createProject = (projects: Project[], project: Project) => [...projects, p
 const updateProject = (projects: Project[], project: Project) => projects.map(p => {
   return p.id === project.id ? Object.assign({}, project) : p;
 });
-const deleteProject = (projects: Project[], project: Project) => projects.filter((w: Project) => project.id !== w.id);
+const deleteProject = (projects, project) => projects.filter(w => project.id !== w.id);
 
-// define the shape of my state
+// 01 Define the shape of my state
 export interface ProjectsState {
   projects: Project[];
   selectedProjectId: string | null;
 }
 
-// define the initial state
+// 02 Define the initial state
 export const initialState: ProjectsState = {
   projects: initialProjects,
-  selectedProjectId: null,
+  selectedProjectId: null
 }
 
-// build the most simplest reducer
-
-export function projectsReducer(state = initialState, action: { type: string }): ProjectsState {
-  switch(action.type) {
-    default:
-      return state;
-  }
+// 03 Build the MOST simplest reducer
+export function projectsReducers(
+  state = initialState, action): ProjectsState {
+    switch(action.type) {
+      default:
+        return state;
+    }
 }
