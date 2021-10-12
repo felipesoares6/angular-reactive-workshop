@@ -8,15 +8,16 @@ import {
   LoadProjects,
   NotificationsService,
   Project,
-  ProjectsService,
   ProjectsState,
   selectAllProjects,
+  selectCurrentProject,
+  SelectProject,
   UpdateProject,
 } from '@workshop/core-data';
 import { Observable } from 'rxjs';
 
 
-const emptyProject: Project = {
+export const emptyProject: Project = {
   id: null,
   title: '',
   details: '',
@@ -33,14 +34,14 @@ const emptyProject: Project = {
 export class ProjectsComponent implements OnInit {
   projects$: Observable<Project[]>;
   customers$: Observable<Customer[]>;
-  currentProject: Project;
+  currentProject$: Observable<Project[]>;
 
   constructor(
-    private projectsService: ProjectsService,
     private customerService: CustomersService,
     private store: Store<ProjectsState>,
     private ns: NotificationsService) {
       this.projects$ = store.pipe(select(selectAllProjects));
+      this.currentProject$ = store.pipe(select(selectCurrentProject));
     }
 
   ngOnInit() {
@@ -50,14 +51,14 @@ export class ProjectsComponent implements OnInit {
   }
 
   resetCurrentProject() {
-    this.currentProject = emptyProject;
+    this.store.dispatch(new SelectProject(emptyProject));
   }
 
-  selectProject(project) {
-    this.currentProject = project;
+  selectProject(project: Project) {
+    this.store.dispatch(new SelectProject(project));
   }
 
-  cancel(project) {
+  cancel(project: Project) {
     this.resetCurrentProject();
   }
 
@@ -69,7 +70,7 @@ export class ProjectsComponent implements OnInit {
     this.store.dispatch(new LoadProjects());
   }
 
-  saveProject(project) {
+  saveProject(project: Project) {
     if (!project.id) {
       this.createProject(project);
     } else {
@@ -77,21 +78,21 @@ export class ProjectsComponent implements OnInit {
     }
   }
 
-  createProject(project) {
+  createProject(project: Project) {
     this.store.dispatch(new AddProject(project));
     // These will go away
     this.ns.emit('Project created!');
     this.resetCurrentProject();
   }
 
-  updateProject(project) {
+  updateProject(project: Project) {
     this.store.dispatch(new UpdateProject(project));
     // These will go away
     this.ns.emit('Project updated!');
     this.resetCurrentProject();
   }
 
-  deleteProject(project) {
+  deleteProject(project: Project) {
     this.store.dispatch(new DeleteProject(project));
 
     // These will go away

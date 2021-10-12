@@ -43,7 +43,7 @@ export const initialState: ProjectsState = adapter.getInitialState({
 })
 
 // 03 Build the MOST simplest reducer
-export function projectsReducers(
+export function projectsReducer(
   state = initialState, action: ProjectsActions): ProjectsState {
   switch (action.type) {
     case ProjectsActionTypes.ProjectSelected:

@@ -8,7 +8,7 @@ import { NxModule } from '@nrwl/nx';
 
 import { reducers } from '.';
 import { CustomersEffects } from './customers/customers.effects';
-import { ProjectsEffects } from './projects/projects.effects';
+
 
 @NgModule({
   imports: [
