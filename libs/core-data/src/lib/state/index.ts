@@ -4,6 +4,7 @@ import { emptyProject } from 'apps/dashboard/src/app/projects/projects.component
 
 import * as fromCustomers from './customers/customers.reducer';
 import * as fromProjects from './projects/projects.reducer';
+import { Project } from '../projects/project.model';
 
 // Updated the shape of the entire application state
 export interface AppState {
@@ -42,10 +43,20 @@ export const selectCurrentProjectId = createSelector(
   fromProjects.getSelectedProjectId
 )
 
+const emptyProject: Project = {
+  id: null,
+  title: '',
+  details: '',
+  percentComplete: 0,
+  approved: false,
+  customerId: null
+}
 export const selectCurrentProject = createSelector(
-  selectProjectState,
+  selectProjectEntities,
   selectCurrentProjectId,
-  (projectEntities, projectId): Project => projectId ? projectEntities[projectId] : emptyProject
+  (projectEntities, projectId) => {
+    return projectId ? projectEntities[projectId] : emptyProject;
+  }
 )
 
 // -------------------------------------------------------------------
@@ -61,10 +72,13 @@ export const selectAllCustomers = createSelector(
 export const selectCustomersProjects = createSelector(
   selectAllCustomers,
   selectAllProjects,
-  (customers, projects) => customers.map((customer) => ({
-    ...customer,
-    projects: projects.filter(project => project.customerId === customer.id)
-  }))
+  (customers, projects) => {
+    return customers.map(customer => {
+      return Object.assign({}, {
+        ...customer,
+        projects: projects.filter(project => project.customerId === customer.id)
+      })
+    })
+  }
 )
-
 
